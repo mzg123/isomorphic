@@ -10,5 +10,12 @@ const server =  Hapi.Server({
 			return "hello work";
 	    }
 	});
+	server.route({
+	    method: 'GET',
+	    path: '/word',
+	    handler: function (request, reply){
+			return "my work";
+	    }
+	});
 
 server.start();

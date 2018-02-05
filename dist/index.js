@@ -17,5 +17,12 @@ server.route({
 		return "hello work";
 	}
 });
+server.route({
+	method: 'GET',
+	path: '/word',
+	handler: function handler(request, reply) {
+		return "my work";
+	}
+});
 
 server.start();
