@@ -1,4 +1,8 @@
 import Hapi from 'hapi';
+import nunjucks from 'nunjucks';
+
+nunjucks.configure('./dist');
+
 const server =  Hapi.Server({
 	host: 'localhost',
 	port: 8000
@@ -7,14 +11,21 @@ const server =  Hapi.Server({
 	    method: 'GET',
 	    path: '/hello',
 	    handler: function (request, reply){
-			return "hello work";
+			return 'Hello, world!';
 	    }
 	});
 	server.route({
 	    method: 'GET',
 	    path: '/word',
-	    handler: function (request, reply){
-			return "my work";
+	    handler: function (request, h){
+			var promise1 = new Promise(function(resolve, reject) {
+				nunjucks.render('index.html', {
+				    fname: 'Miao', lname: 'zg'	
+				}, function(err, html){
+				       resolve(html);
+				});
+			});
+			return promise1;
 	    }
 	});
 

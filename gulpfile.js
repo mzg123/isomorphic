@@ -3,6 +3,10 @@ var babel = require('gulp-babel');
 var nodemon = require('gulp-nodemon');
 var sequence = require('run-sequence');
 
+gulp.task('copy', function(){
+    gulp.src('src/**/*.html')
+	.pipe(gulp.dest('dist'));
+});
 gulp.task('start', function() {
 	nodemon({
 		watch: 'dist',
@@ -21,8 +25,9 @@ gulp.task('complie', function() {
 
 gulp.task('watch', function() {
     gulp.watch('src/**/*.js', ['complie']);
+    gulp.watch('src/**/*.html', ['copy']);
 });
 
 gulp.task('default', function(callback) {
-	sequence(['complie', 'watch'], 'start', callback);
+	sequence(['complie', 'watch', 'copy'], 'start', callback);
 });

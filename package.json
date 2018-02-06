@@ -24,6 +24,7 @@
     "gulp": "^3.9.1",
     "gulp-babel": "^7.0.1",
     "gulp-nodemon": "^2.2.1",
+    "nunjucks": "^3.0.1",
     "run-sequence": "^2.2.1"
   }
 }
