@@ -1,4 +1,6 @@
 import Hapi from 'hapi';
+import Application from './lib/index';
+import Controller from './lib/controller';
 import nunjucks from 'nunjucks';
 
 nunjucks.configure('./dist');
@@ -7,26 +9,19 @@ const server =  Hapi.Server({
 	host: 'localhost',
 	port: 8000
 });
-	server.route({
-	    method: 'GET',
-	    path: '/hello',
-	    handler: function (request, reply){
-			return 'Hello, world!';
-	    }
-	});
-	server.route({
-	    method: 'GET',
-	    path: '/word',
-	    handler: function (request, h){
-			var promise1 = new Promise(function(resolve, reject) {
-				nunjucks.render('index.html', {
-				    fname: 'Miao', lname: 'zg'	
-				}, function(err, html){
-				       resolve(html);
-				});
-			});
-			return promise1;
-	    }
-	});
 
-server.start();
+function getName(request) {
+    let name = {
+        fname: 'M',
+        lname: 'zg'
+    };
+    
+	let nameParts = request.params.name ? request.params.name.split('/') : [];
+    name.fname = (nameParts[0] || request.query.fname) || name.fname;
+    name.lname = (nameParts[1] || request.query.lname) || name.lname;
+	return name;
+}
+var app = new Application({
+	'/test/{name*}': Controller 
+}, {server: server});
+app.start();
