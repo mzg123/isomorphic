@@ -25,32 +25,16 @@ var Controller = function () {
 
 	_createClass(Controller, [{
 		key: 'index',
-		value: function index(application, request, reply, callback) {
-			var getName = this.getName;
+		value: function index(application, request, reply) {
 			var promise = new Promise(function (resolve, reject) {
-				_nunjucks2.default.render('index.html', getName(request), function (err, html) {
-					resolve(html);
-				});
+				resolve();
 			});
 			return promise;
 		}
 	}, {
 		key: 'toString',
-		value: function toString(rcallback) {
-			return "333";
-		}
-	}, {
-		key: 'getName',
-		value: function getName(request) {
-			var name = {
-				fname: 'M',
-				lname: 'zg'
-			};
-
-			var nameParts = request.params.name ? request.params.name.split('/') : [];
-			name.fname = nameParts[0] || request.query.fname || name.fname;
-			name.lname = nameParts[1] || request.query.lname || name.lname;
-			return name;
+		value: function toString(request, rcallback) {
+			callback(null, 'success');
 		}
 	}]);
 

@@ -7,31 +7,14 @@ export default class Controller {
         this.context = context;
     }
 
-    index(application, request, reply, callback) {
-        let getName = this.getName;
+    index(application, request, reply) {
 		var promise = new Promise(function(resolve, reject) {
-			nunjucks.render('index.html',
-			getName(request)
-			, function(err, html){
-				   resolve(html);
-			});
+			resolve();
 		});
 		return promise;
     }
 
-	toString(rcallback) {
-        return "333";
+	toString(request, rcallback) {
+		callback(null, 'success');
     }
-
-	getName(request) {
-		let name = {
-			fname: 'M',
-			lname: 'zg'
-		};
-		
-		let nameParts = request.params.name ? request.params.name.split('/') : [];
-		name.fname = (nameParts[0] || request.query.fname) || name.fname;
-		name.lname = (nameParts[1] || request.query.lname) || name.lname;
-		return name;
-	}
 }

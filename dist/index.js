@@ -8,9 +8,9 @@ var _index = require('./lib/index');
 
 var _index2 = _interopRequireDefault(_index);
 
-var _controller = require('./lib/controller');
+var _HelloController = require('./HelloController');
 
-var _controller2 = _interopRequireDefault(_controller);
+var _HelloController2 = _interopRequireDefault(_HelloController);
 
 var _nunjucks = require('nunjucks');
 
@@ -21,22 +21,23 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 _nunjucks2.default.configure('./dist');
 
 var server = _hapi2.default.Server({
-  host: 'localhost',
-  port: 8000
+	host: 'localhost',
+	port: 8000
 });
 
-function getName(request) {
-  var name = {
-    fname: 'M',
-    lname: 'zg'
-  };
-
-  var nameParts = request.params.name ? request.params.name.split('/') : [];
-  name.fname = nameParts[0] || request.query.fname || name.fname;
-  name.lname = nameParts[1] || request.query.lname || name.lname;
-  return name;
-}
 var app = new _index2.default({
-  '/test/{name*}': _controller2.default
-}, { server: server });
+	'/test/{name*}': _HelloController2.default
+}, { server: server,
+	document: function document(application, controller, request, reply, body, callback) {
+		var promise = new Promise(function (resolve, reject) {
+			_nunjucks2.default.render('index.html', { body: body }, function (err, html) {
+				if (err) {
+					resolve(err);
+				}
+				resolve(html);
+			});
+		});
+		return promise;
+	}
+});
 app.start();

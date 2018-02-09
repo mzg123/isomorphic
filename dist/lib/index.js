@@ -13,6 +13,7 @@ var Application = function () {
 		_classCallCheck(this, Application);
 
 		this.server = options.server;
+		this.document = options.document;
 		this.registerRoutes(routes);
 	}
 
@@ -28,6 +29,7 @@ var Application = function () {
 		value: function addRoutes(path, Controller) {
 			var _this = this;
 
+			var document = this.document;
 			this.server.route({
 				path: path,
 				method: 'GET',
@@ -36,10 +38,14 @@ var Application = function () {
 						query: request.query,
 						params: request.params
 					});
-					return controller.index(_this, request, reply, function (err) {
-						if (err) {
-							return 'err';
-						}
+					return controller.index(_this, request, reply).then(function () {
+						return controller.toString(request, function (err) {
+							if (err) {
+								return 'err';
+							}
+						});
+					}).then(function (body) {
+						return document(_this, controller, request, reply, body, null);
 					});
 				}
 			});
