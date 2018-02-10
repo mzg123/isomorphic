@@ -8,6 +8,8 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+var APP_FILE_PATH = '/application.js';
+
 var Application = function () {
 	function Application(routes, options) {
 		_classCallCheck(this, Application);
@@ -46,14 +48,61 @@ var Application = function () {
 						});
 					}).then(function (body) {
 						return document(_this, controller, request, reply, body, null);
+					}).then(function (html) {
+						reply(html);
 					});
 				}
 			});
+			this.server.route({
+				method: 'GET',
+				//path: APP_FILE_PATH,
+				path: '/{filename}',
+				handler: function handler(request, reply) {
+					return reply.file('dist/build/application.js');
+				}
+			});
+
+			//	this.server.route({
+			//		method: 'GET',
+			//		path: '/{param*}',
+			//		handler: {
+			//			directory: {
+			//				path: '.',
+			//				redirectToSlash: true,
+			//				index: true
+			//			}
+			//		}
+			//	});
 		}
 	}, {
 		key: 'start',
 		value: function start() {
-			this.server.start();
+			var _this2 = this;
+
+			this.server.register(require('inert'), function (err) {
+
+				if (err) {
+					throw err;
+				}
+
+				_this2.server.route({
+					method: 'GET',
+					path: '/picture.jpg',
+					handler: function handler(request, reply) {
+						reply.file('/path/to/picture.jpg');
+					}
+				});
+
+				_this2.server.start(function (err) {
+
+					if (err) {
+						throw err;
+					}
+
+					console.log('Server running at:', _this2.server.info.uri);
+				});
+			});
+			//this.server.start();
 		}
 	}]);
 
