@@ -17,4 +17,15 @@ export default class Controller {
 	toString(request, rcallback) {
 		callback(null, 'success');
     }
+
+	render(target, callback) {
+		this.toString(function(err, body){
+			if (err) {
+				return callback(err, null);
+			}
+		}).then(function(body){
+			document.querySelector(target).innerHTML = body;
+			callback(null, body);
+		});
+	}
 }

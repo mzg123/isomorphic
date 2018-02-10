@@ -8,7 +8,8 @@
     "gulp": "gulp"
   },
   "browser": {
-    "./src/index.js": "./src/index.client.js"
+    "./src/options.js": "./src/options.client.js",
+    "./src/lib/index.js": "./src/lib/index.client.js"
   },
   "keywords": [
     "同构javascript"
@@ -16,9 +17,12 @@
   "author": "mzg",
   "license": "ISC",
   "dependencies": {
+    "call": "^5.0.1",
     "hapi": "16.2.0",
     "inert": "^4.0.0",
-    "n": "^2.1.8"
+    "n": "^2.1.8",
+    "query-string": "^5.1.0",
+    "thaumoctopus-mimicus": "0.4.x"
   },
   "devDependencies": {
     "babel": "^6.23.0",

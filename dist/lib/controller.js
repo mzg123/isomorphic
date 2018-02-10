@@ -36,6 +36,18 @@ var Controller = function () {
 		value: function toString(request, rcallback) {
 			callback(null, 'success');
 		}
+	}, {
+		key: 'render',
+		value: function render(target, callback) {
+			this.toString(function (err, body) {
+				if (err) {
+					return callback(err, null);
+				}
+			}).then(function (body) {
+				document.querySelector(target).innerHTML = body;
+				callback(null, body);
+			});
+		}
 	}]);
 
 	return Controller;

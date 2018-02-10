@@ -35,13 +35,13 @@ var HelloController = function (_Controller) {
 
 	_createClass(HelloController, [{
 		key: 'getName',
-		value: function getName(request) {
+		value: function getName(context) {
 			var name = {
 				fname: 'M',
 				lname: 'zg'
 			};
 
-			var nameParts = request.params.name ? request.params.name.split('/') : [];
+			var nameParts = context.params.name ? context.params.name.split('/') : [];
 			name.fname = nameParts[0] || request.query.fname || name.fname;
 			name.lname = nameParts[1] || request.query.lname || name.lname;
 			return name;
@@ -49,9 +49,10 @@ var HelloController = function (_Controller) {
 	}, {
 		key: 'toString',
 		value: function toString(request, callback) {
+			var context = this.context;
 			var getName = this.getName;
 			var promise = new Promise(function (resolve, reject) {
-				_nunjucks2.default.renderString('<p>hello{{fname}}{{lname}}</p>', getName(request), function (err, html) {
+				_nunjucks2.default.render('./template/hello.html', getName(context), function (err, html) {
 					if (err) {
 						resolve(err);
 					}

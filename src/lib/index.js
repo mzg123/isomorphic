@@ -1,5 +1,6 @@
-
+import path from 'path';
 const APP_FILE_PATH = '/application.js';
+
 export default class Application {
     constructor(routes, options) {
         this.server = options.server;
@@ -36,26 +37,6 @@ export default class Application {
 				});
 			}
         });
-		this.server.route({
-			method: 'GET',
-			//path: APP_FILE_PATH,
-			path: '/{filename}',
-			handler: (request, reply) => {
-			    return reply.file('dist/build/application.js');
-			}
-		});
-
-	//	this.server.route({
-	//		method: 'GET',
-	//		path: '/{param*}',
-	//		handler: {
-	//			directory: {
-	//				path: '.',
-	//				redirectToSlash: true,
-	//				index: true
-	//			}
-	//		}
-	//	});
 
     }
 
